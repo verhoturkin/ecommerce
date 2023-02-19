@@ -9,6 +9,7 @@ import ru.verkhoturkin.ecommerce.entity.Order;
 import ru.verkhoturkin.ecommerce.entity.OrderItem;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,7 +37,15 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setBillingAddress(purchase.getBillingAddress());
 
         Customer customer = purchase.getCustomer();
-        order.setCustomer(customer);
+
+        String email = customer.getEmail();
+        Customer customerFromDb = customerRepository.findByEmail(email);
+
+        if (customerFromDb != null) {
+            customer = customerFromDb;
+        }
+
+//        order.setCustomer(customer);
         customer.add(order);
 
         customerRepository.save(customer);
