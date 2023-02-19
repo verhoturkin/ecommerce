@@ -1,6 +1,7 @@
 package ru.verkhoturkin.ecommerce.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -17,6 +18,10 @@ import javax.persistence.metamodel.EntityType;
 @Configuration
 public class DataRestConfig implements RepositoryRestConfigurer {
 
+    @Value("${spring.data.rest.base-path}")
+    private String basePath;
+    @Value("${allowed.origins}")
+    private String[] allowedOrigins;
     private final EntityManager entityManager;
 
     @Autowired
@@ -28,7 +33,7 @@ public class DataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        HttpMethod[] unsupportedMethods = {HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE};
+        HttpMethod[] unsupportedMethods = {HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH};
 
         disableHttpMethod(Product.class, config, unsupportedMethods);
         disableHttpMethod(ProductCategory.class, config, unsupportedMethods);
@@ -36,6 +41,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethod(State.class, config, unsupportedMethods);
 
         exposeIds(config);
+
+        cors.addMapping(basePath + "/**").allowedOrigins(allowedOrigins);
     }
 
     private static void disableHttpMethod(Class<?> clazz,

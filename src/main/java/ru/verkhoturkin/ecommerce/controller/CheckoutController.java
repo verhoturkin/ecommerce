@@ -5,7 +5,6 @@ import ru.verkhoturkin.ecommerce.dto.Purchase;
 import ru.verkhoturkin.ecommerce.dto.PurchaseResponse;
 import ru.verkhoturkin.ecommerce.service.CheckoutService;
 
-@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {
