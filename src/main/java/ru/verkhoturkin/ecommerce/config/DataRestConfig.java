@@ -7,10 +7,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import ru.verkhoturkin.ecommerce.entity.Country;
-import ru.verkhoturkin.ecommerce.entity.Product;
-import ru.verkhoturkin.ecommerce.entity.ProductCategory;
-import ru.verkhoturkin.ecommerce.entity.State;
+import ru.verkhoturkin.ecommerce.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
@@ -39,6 +36,7 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethod(ProductCategory.class, config, unsupportedMethods);
         disableHttpMethod(Country.class, config, unsupportedMethods);
         disableHttpMethod(State.class, config, unsupportedMethods);
+        disableHttpMethod(Order.class, config, unsupportedMethods);
 
         exposeIds(config);
 
